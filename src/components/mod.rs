@@ -1,2 +1,3 @@
 pub mod organisms;
-pub mod automs;
+pub mod atoms;
+pub mod molecules;
