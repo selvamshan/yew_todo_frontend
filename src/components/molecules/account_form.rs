@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use crate::components::atoms::{
-    ss_button::{SSButton, ButtonColor},
+    ss_button::SSButton,
     ss_text_input::{SSTextInput, InputType},
 };
 use stylist::yew::styled_component;

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use yewdux::prelude::*;
 
-use crate::api::AuthResponse;
+use crate::api::{AuthResponse, TaskResponse};
 
 
 
@@ -9,7 +9,8 @@ use crate::api::AuthResponse;
 #[store(storage="local")]
 pub struct Store{
     pub username: String,
-    pub token : String
+    pub token : String,
+    pub tasks: Vec<Task>,    
 }
 
 
@@ -18,8 +19,18 @@ impl Default for Store {
         Self {
             username: Default::default(),
             token: Default::default(),
+            tasks: Default::default(),            
         }
     }
+}
+
+#[derive(Clone, Default, Serialize, Deserialize, PartialEq, Debug)]
+pub struct Task {
+    pub completed_at: Option<String>,
+    pub description: Option<String>,
+    pub id: u32,
+    pub priority: Option<char>,
+    pub title: String,
 }
 
 
@@ -37,3 +48,16 @@ pub fn logout(dispatch: Dispatch<Store>) {
         //store.tasks = vec![];
     });
 }
+
+pub fn set_tasks(tasks: TaskResponse, dispatch: Dispatch<Store>) {
+    dispatch.reduce_mut(move |store| {
+        store.tasks = tasks.data;
+    })
+}
+
+pub fn add_task(dispatch: Dispatch<Store>, task: Task) {
+    dispatch.reduce_mut(move |store| {
+        store.tasks.push(task);
+    });
+}
+
